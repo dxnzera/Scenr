@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useWatchlist } from "../hooks/useWatchlist";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import logo from "../../../public/brand/scenr-icon.svg";
 
 const primaryNavItems = [
   { name: "Buscar", path: "/search", icon: Search },
@@ -39,7 +40,7 @@ export function Header() {
               className="flex items-center justify-center rounded-full border border-white/10 bg-white/5 transition-transform scale-[1.1] duration-300 hover:scale-[1.2]"
             >
               <img
-                src="/brand/scenr-icon.png"
+                src={logo}
                 alt="Scenr"
                 className="h-11 w-11 rounded-full object-cover shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
               />
