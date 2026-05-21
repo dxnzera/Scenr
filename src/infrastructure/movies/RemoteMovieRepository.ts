@@ -13,10 +13,13 @@ export class RemoteMovieRepository implements MovieRepository {
   private readonly mapper = new ImdbMovieMapper();
   private readonly cache = new Map<string, Movie>();
   private readonly browserCache = new BrowserMovieCache();
+  private readonly inFlightSearches = new Map<string, Promise<MovieCollection>>();
+  private readonly inFlightDetails = new Map<string, Promise<Movie | null>>();
 
   constructor(private readonly fallbackRepository: MovieRepository) {}
 
   async search(criteria?: MovieSearchCriteria): Promise<MovieCollection> {
+    const searchKey = this.serializeCriteria(criteria);
     const cachedCollection = this.browserCache.getSearch(criteria);
 
     if (cachedCollection) {
@@ -24,24 +27,37 @@ export class RemoteMovieRepository implements MovieRepository {
       return cachedCollection.uniqueById();
     }
 
+    const inFlightSearch = this.inFlightSearches.get(searchKey);
+
+    if (inFlightSearch) {
+      return inFlightSearch;
+    }
+
     if (!this.apiClient.isConfigured) {
       return this.fallbackRepository.search(criteria);
     }
 
-    try {
-      const payload = await this.apiClient.search(criteria);
-      const movies = this.mapper.toMovieCollection(payload);
-      this.cacheMovies(movies);
+    const request = (async () => {
+      try {
+        const payload = await this.apiClient.search(criteria);
+        const movies = this.mapper.toMovieCollection(payload);
+        this.cacheMovies(movies);
 
-      if (!movies.length) {
+        if (!movies.length) {
+          return this.fallbackRepository.search(criteria);
+        }
+
+        this.browserCache.setSearch(criteria, movies);
+        return new MovieCollection(movies).uniqueById();
+      } catch {
         return this.fallbackRepository.search(criteria);
+      } finally {
+        this.inFlightSearches.delete(searchKey);
       }
+    })();
 
-      this.browserCache.setSearch(criteria, movies);
-      return new MovieCollection(movies).uniqueById();
-    } catch {
-      return this.fallbackRepository.search(criteria);
-    }
+    this.inFlightSearches.set(searchKey, request);
+    return request;
   }
 
   async findById(id: string) {
@@ -58,24 +74,37 @@ export class RemoteMovieRepository implements MovieRepository {
       return persistedMovie;
     }
 
+    const inFlightDetail = this.inFlightDetails.get(id);
+
+    if (inFlightDetail) {
+      return inFlightDetail;
+    }
+
     if (!this.apiClient.isConfigured) {
       return this.fallbackRepository.findById(id);
     }
 
-    try {
-      const payload = await this.apiClient.getById(id);
-      const movie = this.mapper.toMovie(payload);
+    const request = (async () => {
+      try {
+        const payload = await this.apiClient.getById(id);
+        const movie = this.mapper.toMovie(payload);
 
-      if (movie) {
-        this.cache.set(id, movie);
-        this.cache.set(movie.id, movie);
-        this.browserCache.setMovie(movie);
+        if (movie) {
+          this.cache.set(id, movie);
+          this.cache.set(movie.id, movie);
+          this.browserCache.setMovie(movie);
+        }
+
+        return movie ?? this.fallbackRepository.findById(id);
+      } catch {
+        return this.fallbackRepository.findById(id);
+      } finally {
+        this.inFlightDetails.delete(id);
       }
+    })();
 
-      return movie ?? this.fallbackRepository.findById(id);
-    } catch {
-      return this.fallbackRepository.findById(id);
-    }
+    this.inFlightDetails.set(id, request);
+    return request;
   }
 
   private cacheMovies(movies: Movie[]) {
@@ -87,5 +116,14 @@ export class RemoteMovieRepository implements MovieRepository {
   seedCache(movies: Movie[]) {
     this.cacheMovies(movies);
     this.browserCache.seedMovies(movies);
+  }
+
+  private serializeCriteria(criteria?: MovieSearchCriteria) {
+    return JSON.stringify({
+      genre: criteria?.genre ?? "",
+      limit: criteria?.limit ?? 0,
+      query: criteria?.query?.trim().toLowerCase() ?? "",
+      type: criteria?.type ?? "all",
+    });
   }
 }

@@ -15,12 +15,7 @@ export function Home() {
 
     async function loadHome() {
       try {
-        const nextSections = await application.getHomeSections.execute([
-          { title: "Em alta agora", query: "Em alta", type: "movie" },
-          { title: "Series em alta", query: "Em alta", type: "tv" },
-          { title: "Noite de suspense", query: "Thriller", type: "movie" },
-          { title: "Sci-fi para maratonar", query: "Sci-Fi", type: "tv" },
-        ]);
+        const nextSections = await application.warmHomeSections();
 
         if (active) {
           setSections(nextSections);

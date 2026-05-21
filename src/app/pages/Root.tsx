@@ -1,7 +1,15 @@
+import { useEffect, useMemo } from "react";
 import { Outlet } from "react-router";
+import { getMovieApplication } from "../../application/movies/MovieApplication";
 import { Header } from "../components/Header";
 
 export function Root() {
+  const application = useMemo(() => getMovieApplication(), []);
+
+  useEffect(() => {
+    void application.warmHomeSections();
+  }, [application]);
+
   return (
     <div className="app-canvas min-h-screen overflow-x-hidden bg-background">
       <Header />
