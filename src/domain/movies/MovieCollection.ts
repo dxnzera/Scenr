@@ -1,4 +1,5 @@
 import { Movie } from "./Movie";
+import { type MovieKind } from "./Movie";
 
 export class MovieCollection {
   constructor(private readonly items: Movie[]) {}
@@ -35,6 +36,10 @@ export class MovieCollection {
 
   filterByGenre(genre: string): MovieCollection {
     return new MovieCollection(this.items.filter((movie) => movie.hasGenre(genre)));
+  }
+
+  filterByKind(kind: MovieKind): MovieCollection {
+    return new MovieCollection(this.items.filter((movie) => movie.isKind(kind)));
   }
 
   search(query: string): MovieCollection {

@@ -21,6 +21,15 @@ export class ImdbApiClient {
       criteria.genre?.trim() && criteria.genre !== "Todos" ? criteria.genre.trim() : "";
 
     if (!normalizedQuery && !normalizedGenre) {
+      if (!criteria.type) {
+        const [movies, series] = await Promise.all([
+          this.request("/api/imdb/most-popular-movies"),
+          this.request("/api/imdb/most-popular-tv"),
+        ]);
+
+        return [...this.asArray(movies), ...this.asArray(series)];
+      }
+
       return this.request(
         criteria.type === "tv"
           ? "/api/imdb/most-popular-tv"
@@ -81,7 +90,6 @@ export class ImdbApiClient {
 
   private async request(endpoint: string) {
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
-      cache: "no-store",
       headers: {
         "x-rapidapi-key": this.apiKey,
         "x-rapidapi-host": this.resolveRequestHost(),
@@ -101,5 +109,13 @@ export class ImdbApiClient {
     } catch {
       return this.configuredHost || "imdb236.p.rapidapi.com";
     }
+  }
+
+  private asArray(payload: ImdbSearchResponse) {
+    return Array.isArray(payload)
+      ? payload
+      : Array.isArray(payload.results)
+        ? payload.results
+        : [];
   }
 }

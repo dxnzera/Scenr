@@ -38,6 +38,31 @@
   --hero-bg: rgba(255, 255, 255, 0.96);
   --hero-bg-hover: rgba(255, 255, 255, 1);
   --hero-foreground: #150c28;
+  --theme-shell-glow: color-mix(in srgb, var(--primary) 14%, transparent);
+  --theme-shell-glow-deep: color-mix(in srgb, var(--primary) 8%, transparent);
+  --theme-shell-highlight: rgba(255, 255, 255, 0.06);
+  --theme-nav-surface-top: rgba(8, 8, 12, 0.92);
+  --theme-nav-surface-bottom: rgba(10, 10, 16, 0.82);
+  --theme-nav-accent-soft: color-mix(in srgb, var(--primary) 14%, transparent);
+  --theme-nav-accent-strong: color-mix(in srgb, var(--primary) 22%, transparent);
+  --theme-nav-accent-border: color-mix(in srgb, var(--primary) 34%, transparent);
+  --theme-nav-accent-shadow: color-mix(in srgb, var(--primary) 34%, transparent);
+  --theme-nav-badge-bg: color-mix(in srgb, var(--primary) 88%, black 12%);
+  --theme-nav-badge-text: #ffffff;
+  --theme-hero-overlay-top: rgba(5, 5, 8, 0.34);
+  --theme-hero-overlay-mid: rgba(5, 5, 8, 0.28);
+  --theme-hero-overlay-bottom: rgba(5, 5, 8, 0.92);
+  --theme-hero-overlay-left: rgba(4, 4, 6, 0.96);
+  --theme-hero-overlay-left-mid: rgba(4, 4, 6, 0.74);
+  --theme-hero-overlay-right-mid: rgba(4, 4, 6, 0.18);
+  --theme-hero-overlay-right-end: rgba(4, 4, 6, 0.08);
+  --theme-hero-accent: color-mix(in srgb, var(--primary) 24%, transparent);
+  --theme-detail-accent: color-mix(in srgb, var(--primary) 22%, transparent);
+  --theme-panel-surface-start: rgba(255, 255, 255, 0.08);
+  --theme-panel-surface-end: rgba(255, 255, 255, 0.03);
+  --theme-panel-shadow: rgba(0, 0, 0, 0.3);
+  --theme-panel-accent: color-mix(in srgb, var(--primary) 22%, transparent);
+  --theme-panel-highlight: rgba(255, 255, 255, 0.06);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -89,6 +114,31 @@
   --hero-bg: rgba(255, 255, 255, 0.98);
   --hero-bg-hover: rgba(255, 255, 255, 1);
   --hero-foreground: #130a25;
+  --theme-shell-glow: color-mix(in srgb, var(--primary) 16%, transparent);
+  --theme-shell-glow-deep: color-mix(in srgb, var(--primary) 10%, transparent);
+  --theme-shell-highlight: rgba(255, 255, 255, 0.06);
+  --theme-nav-surface-top: rgba(8, 8, 12, 0.92);
+  --theme-nav-surface-bottom: rgba(10, 10, 16, 0.82);
+  --theme-nav-accent-soft: color-mix(in srgb, var(--primary) 14%, transparent);
+  --theme-nav-accent-strong: color-mix(in srgb, var(--primary) 22%, transparent);
+  --theme-nav-accent-border: color-mix(in srgb, var(--primary) 34%, transparent);
+  --theme-nav-accent-shadow: color-mix(in srgb, var(--primary) 34%, transparent);
+  --theme-nav-badge-bg: color-mix(in srgb, var(--primary) 86%, black 14%);
+  --theme-nav-badge-text: #ffffff;
+  --theme-hero-overlay-top: rgba(5, 5, 8, 0.34);
+  --theme-hero-overlay-mid: rgba(5, 5, 8, 0.28);
+  --theme-hero-overlay-bottom: rgba(5, 5, 8, 0.92);
+  --theme-hero-overlay-left: rgba(4, 4, 6, 0.96);
+  --theme-hero-overlay-left-mid: rgba(4, 4, 6, 0.74);
+  --theme-hero-overlay-right-mid: rgba(4, 4, 6, 0.18);
+  --theme-hero-overlay-right-end: rgba(4, 4, 6, 0.08);
+  --theme-hero-accent: color-mix(in srgb, var(--primary) 28%, transparent);
+  --theme-detail-accent: color-mix(in srgb, var(--primary) 22%, transparent);
+  --theme-panel-surface-start: rgba(255, 255, 255, 0.08);
+  --theme-panel-surface-end: rgba(255, 255, 255, 0.03);
+  --theme-panel-shadow: rgba(0, 0, 0, 0.3);
+  --theme-panel-accent: color-mix(in srgb, var(--primary) 20%, transparent);
+  --theme-panel-highlight: rgba(255, 255, 255, 0.06);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -153,9 +203,9 @@
   body {
     @apply bg-background text-foreground;
     background-image:
-      radial-gradient(circle at top left, rgba(123, 86, 226, 0.14), transparent 24%),
-      radial-gradient(circle at 82% 18%, rgba(69, 32, 133, 0.09), transparent 30%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 28%);
+      radial-gradient(circle at top left, var(--theme-shell-glow), transparent 24%),
+      radial-gradient(circle at 82% 18%, var(--theme-shell-glow-deep), transparent 30%),
+      linear-gradient(180deg, var(--theme-shell-highlight), transparent 28%);
     background-attachment: fixed;
   }
 
@@ -225,8 +275,9 @@
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(circle at 20% 10%, rgba(142, 104, 255, 0.08), transparent 22%),
-      radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.02), transparent 26%);
+      radial-gradient(circle at 18% 10%, var(--theme-shell-glow), transparent 22%),
+      radial-gradient(circle at 84% 0%, rgba(255, 255, 255, 0.03), transparent 26%),
+      radial-gradient(circle at 48% 100%, var(--theme-shell-glow-deep), transparent 30%);
     z-index: 0;
   }
 
@@ -291,5 +342,128 @@
   .button-soft,
   .button-hero {
     fill: currentColor;
+  }
+
+  .side-nav-surface {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      linear-gradient(180deg, var(--theme-nav-surface-top), var(--theme-nav-surface-bottom)),
+      radial-gradient(circle at top, var(--theme-nav-accent-soft), transparent 28%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 24px 64px rgba(0, 0, 0, 0.34);
+    backdrop-filter: blur(26px);
+    -webkit-backdrop-filter: blur(26px);
+  }
+
+  .side-nav-link {
+    display: flex;
+    height: 3.25rem;
+    width: 3.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, 0.62);
+    transition:
+      transform 220ms ease,
+      background-color 220ms ease,
+      border-color 220ms ease,
+      color 220ms ease,
+      box-shadow 220ms ease;
+  }
+
+  .side-nav-link:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.94);
+  }
+
+  .side-nav-link-active {
+    border-color: var(--theme-nav-accent-border);
+    background: linear-gradient(180deg, var(--theme-nav-accent-strong), var(--theme-nav-accent-soft));
+    color: #ffffff;
+    box-shadow: 0 14px 34px var(--theme-nav-accent-shadow);
+  }
+
+  .side-nav-count-badge {
+    background: var(--theme-nav-badge-bg);
+    color: var(--theme-nav-badge-text);
+    box-shadow: 0 10px 24px color-mix(in srgb, var(--theme-nav-badge-bg) 48%, transparent);
+  }
+
+  .hero-overlay-top {
+    background: linear-gradient(
+      180deg,
+      var(--theme-hero-overlay-top) 0%,
+      var(--theme-hero-overlay-mid) 25%,
+      var(--theme-hero-overlay-bottom) 100%
+    );
+  }
+
+  .hero-overlay-side {
+    background: linear-gradient(
+      90deg,
+      var(--theme-hero-overlay-left) 0%,
+      var(--theme-hero-overlay-left-mid) 28%,
+      var(--theme-hero-overlay-right-mid) 66%,
+      var(--theme-hero-overlay-right-end) 100%
+    );
+  }
+
+  .hero-overlay-accent {
+    background: radial-gradient(circle at top right, var(--theme-hero-accent), transparent 35%);
+  }
+
+  .detail-overlay-accent {
+    background: radial-gradient(circle at top right, var(--theme-detail-accent), transparent 28%);
+  }
+
+  .panel-surface {
+    background: linear-gradient(135deg, var(--theme-panel-surface-start), var(--theme-panel-surface-end));
+    box-shadow: 0 30px 90px var(--theme-panel-shadow);
+  }
+
+  .panel-accent-glow {
+    background:
+      radial-gradient(circle at top right, var(--theme-panel-accent), transparent 28%),
+      radial-gradient(circle at left center, var(--theme-panel-highlight), transparent 34%);
+  }
+
+  .content-fade-in {
+    animation: content-rise 460ms ease-out;
+  }
+
+  .hero-title-shadow {
+    text-shadow:
+      0 6px 24px rgba(0, 0, 0, 0.46),
+      0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .animate-slow-pan {
+    animation: slow-pan 14s ease-out forwards;
+  }
+
+  @keyframes slow-pan {
+    from {
+      transform: scale(1.06);
+    }
+
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes content-rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

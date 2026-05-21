@@ -4,10 +4,12 @@ import { LiquidSearchBar } from "../components/LiquidSearchBar";
 import { getMovieApplication } from "../../application/movies/MovieApplication";
 import { MovieCollection } from "../../domain/movies/MovieCollection";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
+import { Button } from "../components/ui/button";
 
 export function Search() {
   const application = useMemo(() => getMovieApplication(), []);
   const [query, setQuery] = useState("");
+  const [selectedType, setSelectedType] = useState<"all" | "movie" | "tv">("all");
   const [results, setResults] = useState(MovieCollection.empty());
   const [discovery, setDiscovery] = useState(MovieCollection.empty());
   const [loading, setLoading] = useState(false);
@@ -17,11 +19,12 @@ export function Search() {
     let active = true;
 
     async function loadDiscovery() {
-      const collection = await application.getBrowseCatalog.execute([
-        "Drama",
-        "Adventure",
-        "Sci-Fi",
-      ]);
+      const collection = selectedType === "all"
+        ? await application.repository.search({ limit: 24 })
+        : await application.getBrowseCatalog.execute(
+            ["Drama", "Adventure", "Sci-Fi"],
+            selectedType,
+          );
 
       if (active) {
         setDiscovery(collection);
@@ -33,7 +36,7 @@ export function Search() {
     return () => {
       active = false;
     };
-  }, [application]);
+  }, [application, selectedType]);
 
   useEffect(() => {
     let active = true;
@@ -48,7 +51,10 @@ export function Search() {
       setLoading(true);
 
       try {
-        const collection = await application.searchMovies.execute(debouncedQuery);
+        const collection = await application.searchMovies.execute(
+          debouncedQuery,
+          selectedType === "all" ? undefined : selectedType,
+        );
 
         if (active) {
           setResults(collection);
@@ -65,27 +71,42 @@ export function Search() {
     return () => {
       active = false;
     };
-  }, [application, debouncedQuery]);
+  }, [application, debouncedQuery, selectedType]);
 
   return (
-    <div className="min-h-screen pb-12 pt-32">
-      <div className="mx-auto max-w-[1400px] px-6">
-        <div className="space-y-10">
+    <div className="min-h-screen pb-12 pt-10">
+      <div className="mx-auto max-w-[1480px] px-6">
+        <div className="content-fade-in space-y-10">
           <div className="max-w-3xl space-y-5">
             <span className="text-sm uppercase tracking-[0.4em] text-white/60">
               Busca
             </span>
             <h1 className="text-4xl font-semibold md:text-5xl">
-              Encontre filmes com a pesquisa em liquid glass.
+              Encontre filmes e series sem sair do clima da home.
             </h1>
             <p className="max-w-2xl text-base text-muted-foreground md:text-lg">
-              A interface ficou com o visual do app principal, mas agora a pesquisa usa a
-              ideia do `scenr` com uma barra mais tátil e pronta para a API.
+              A busca agora conversa melhor com o catalogo inteiro e deixa voce alternar entre tudo, so filmes ou so series.
             </p>
+            <div className="flex flex-wrap gap-3">
+              {[
+                { label: "Tudo", value: "all" },
+                { label: "Filmes", value: "movie" },
+                { label: "Series", value: "tv" },
+              ].map((item) => (
+                <Button
+                  key={item.value}
+                  variant={selectedType === item.value ? "hero" : "glass"}
+                  className="px-5"
+                  onClick={() => setSelectedType(item.value as "all" | "movie" | "tv")}
+                >
+                  {item.label}
+                </Button>
+              ))}
+            </div>
             <LiquidSearchBar
               value={query}
               onChange={setQuery}
-              placeholder="Pesquisar filmes, gêneros ou universos..."
+              placeholder="Pesquisar titulos, generos ou universos..."
               loading={loading}
             />
           </div>
@@ -105,7 +126,7 @@ export function Search() {
 
           {!query && (
             <div>
-              <h2 className="mb-6 text-2xl font-semibold">Sugestões para começar</h2>
+              <h2 className="mb-6 text-2xl font-semibold">Sugestoes para comecar</h2>
               <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {discovery.take(10).map((movie) => (
                   <MovieCard key={movie.id} movie={movie} />
@@ -116,7 +137,7 @@ export function Search() {
 
           {query && !loading && !results.size && (
             <div className="liquid-glass rounded-[32px] p-8 text-center text-white/70">
-              Nenhum título encontrado. Tente um gênero como `drama`, `action` ou `thriller`.
+              Nenhum titulo encontrado. Tente um genero como `drama`, `action` ou `thriller`.
             </div>
           )}
         </div>

@@ -12,9 +12,13 @@ export class FallbackMovieRepository implements MovieRepository {
   );
 
   async search(criteria?: MovieSearchCriteria): Promise<MovieCollection> {
-    const genreFiltered = criteria?.genre
-      ? this.collection.filterByGenre(criteria.genre)
+    const kindFiltered = criteria?.type
+      ? this.collection.filterByKind(criteria.type)
       : this.collection;
+
+    const genreFiltered = criteria?.genre
+      ? kindFiltered.filterByGenre(criteria.genre)
+      : kindFiltered;
 
     const searchedCollection = criteria?.query
       ? genreFiltered.search(criteria.query)

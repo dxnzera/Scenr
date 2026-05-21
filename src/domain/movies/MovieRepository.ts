@@ -1,3 +1,4 @@
+import { type MovieKind } from "./Movie";
 import { Movie } from "./Movie";
 import { MovieCollection } from "./MovieCollection";
 
@@ -11,6 +12,7 @@ export interface MovieSearchCriteria {
 export interface HomeSectionConfig {
   title: string;
   query: string;
+  type?: MovieKind;
 }
 
 export interface HomeSection {

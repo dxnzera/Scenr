@@ -20,7 +20,7 @@ export function MovieRow({ title, movies }: MovieRowProps) {
   };
 
   return (
-    <div className="mx-auto max-w-[1400px] space-y-5 px-6">
+    <div className="mx-auto max-w-[1480px] space-y-5 px-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold">{title}</h2>
         <div className="hidden gap-2 md:flex">

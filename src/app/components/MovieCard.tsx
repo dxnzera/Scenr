@@ -26,6 +26,9 @@ export function MovieCard({ movie }: MovieCardProps) {
             alt={movie.title}
             className="w-full h-full object-cover"
           />
+          <div className="absolute left-3 top-3 rounded-full border border-white/12 bg-black/55 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.22em] text-white/78 backdrop-blur-xl">
+            {movie.kindLabel}
+          </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/16 to-transparent opacity-0 transition-opacity duration-300 group-hover/card:opacity-100" />
 
           <div className="absolute inset-x-0 bottom-0 flex translate-y-3 items-end justify-between p-4 opacity-0 transition-all duration-300 group-hover/card:translate-y-0 group-hover/card:opacity-100">

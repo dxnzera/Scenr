@@ -36,9 +36,9 @@ export function MyList() {
   }, [application, watchlist.ids]);
 
   return (
-    <div className="min-h-screen pb-12 pt-32">
-      <div className="mx-auto max-w-[1400px] px-6">
-        <div className="space-y-8">
+    <div className="min-h-screen pb-12 pt-10">
+      <div className="mx-auto max-w-[1480px] px-6">
+        <div className="content-fade-in space-y-8">
           <div>
             <h1 className="mb-2 text-4xl font-semibold">Minha Lista</h1>
             <p className="text-muted-foreground">
@@ -53,7 +53,7 @@ export function MyList() {
               ))}
             </div>
           ) : (
-            <div className="liquid-glass py-20 text-center rounded-[32px]">
+            <div className="liquid-glass rounded-[32px] py-20 text-center">
               <p className="text-lg text-white/70">
                 Sua lista está vazia. Salve títulos na Home, na busca ou na página de detalhes.
               </p>

@@ -1,93 +1,120 @@
 import { Link, useLocation } from "react-router";
-import { Search, Moon, Sun, UserRound } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
+import {
+  Bookmark,
+  Clapperboard,
+  Home,
+  Search,
+  Tv,
+  UserRound,
+} from "lucide-react";
 import { useWatchlist } from "../hooks/useWatchlist";
-import { Button } from "./ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+
+const primaryNavItems = [
+  { name: "Buscar", path: "/search", icon: Search },
+  { name: "Inicio", path: "/", icon: Home },
+  { name: "Filmes", path: "/movies", icon: Clapperboard },
+  { name: "Series", path: "/series", icon: Tv },
+  { name: "Minha Lista", path: "/my-list", icon: Bookmark },
+] as const;
+
+const secondaryNavItems = [
+  { name: "Usuario", path: "/profile", icon: UserRound },
+] as const;
 
 export function Header() {
   const location = useLocation();
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const watchlist = useWatchlist();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const navItems = [
-    { name: "Início", path: "/" },
-    { name: "Explorar", path: "/browse" },
-    { name: "Minha Lista", path: "/my-list" },
-  ];
+  const isActive = (path: string) =>
+    path === "/" ? location.pathname === path : location.pathname.startsWith(path);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-4 md:px-6">
-      <div className="liquid-glass mx-auto max-w-[1400px] rounded-[28px] px-5 py-4 md:px-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-8 md:gap-12">
-            <Link to="/" className="flex items-center gap-3">
+    <>
+      <aside className="fixed inset-y-0 left-0 z-50 hidden w-[104px] px-5 py-6 md:block lg:w-[120px]">
+        <div className="side-nav-surface flex h-full flex-col justify-between rounded-[34px] px-4 py-5">
+          <div className="space-y-6">
+            <Link
+              to="/"
+              className="flex items-center justify-center rounded-full border border-white/10 bg-white/5 transition-transform scale-[1.1] duration-300 hover:scale-[1.2]"
+            >
               <img
                 src="/brand/scenr-icon.png"
                 alt="Scenr"
-                className="h-11 w-11 rounded-2xl object-cover shadow-[0_16px_40px_rgba(34,16,69,0.18)]"
+                className="h-11 w-11 rounded-full object-cover shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
               />
-              <div>
-                <span className="block text-sm text-muted-foreground">Streaming</span>
-                <span className="text-lg font-semibold tracking-[0.2em] text-foreground uppercase">Scenr</span>
-              </div>
             </Link>
 
-            <nav className="hidden md:flex items-center gap-8">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`relative text-sm transition-colors ${
-                    location.pathname === item.path
-                      ? "text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {item.name}
-                  {item.path === "/my-list" && watchlist.count > 0 && (
-                    <span className="ml-2 rounded-full bg-primary/12 px-2 py-0.5 text-xs text-primary">
-                      {watchlist.count}
-                    </span>
-                  )}
-                </Link>
+            <nav className="flex flex-col items-center gap-3">
+              {primaryNavItems.map((item) => (
+                <Tooltip key={item.path}>
+                  <TooltipTrigger asChild>
+                    <Link
+                      to={item.path}
+                      aria-label={item.name}
+                      className={`side-nav-link ${isActive(item.path) ? "side-nav-link-active" : ""}`}
+                    >
+                      <div className="relative">
+                        <item.icon className="h-5 w-5" />
+                        {item.path === "/my-list" && watchlist.count > 0 && (
+                          <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-purple-900 px-1 text-[10px] font-semibold text-white">
+                            {watchlist.count}
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent side="right" sideOffset={12}>
+                    {item.name}
+                  </TooltipContent>
+                </Tooltip>
               ))}
             </nav>
           </div>
 
-          <div className="flex items-center gap-3 md:gap-4">
-            <Button asChild variant="glass" className="hidden px-4 md:inline-flex">
-              <Link to="/search">
-                <Search className="w-4 h-4" />
-                Buscar títulos
-              </Link>
-            </Button>
-
-            {/* {mounted && (
-              <Button
-                variant="glass"
-                size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              >
-                {theme === "dark" ? (
-                  <Sun className="w-5 h-5" />
-                ) : (
-                  <Moon className="w-5 h-5" />
-                )}
-              </Button>
-            )} */}
-
-            <Button variant="glass" size="icon" className="relative" aria-label="Perfil">
-              <UserRound className="w-5 h-5" />
-            </Button>
+          <div className="flex flex-col items-center gap-3">
+            {secondaryNavItems.map((item) => (
+              <Tooltip key={item.path}>
+                <TooltipTrigger asChild>
+                  <Link
+                    to={item.path}
+                    aria-label={item.name}
+                    className={`side-nav-link ${isActive(item.path) ? "side-nav-link-active" : ""}`}
+                  >
+                    <item.icon className="h-5 w-5" />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right" sideOffset={12}>
+                  {item.name}
+                </TooltipContent>
+              </Tooltip>
+            ))}
           </div>
         </div>
-      </div>
-    </header>
+      </aside>
+
+      <nav className="fixed inset-x-4 bottom-4 z-50 md:hidden">
+        <div className="side-nav-surface flex items-center justify-between rounded-[26px] px-3 py-3">
+          {[...primaryNavItems, ...secondaryNavItems].map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              aria-label={item.name}
+              className={`side-nav-link h-11 w-11 ${isActive(item.path) ? "side-nav-link-active" : ""}`}
+              title={item.name}
+            >
+              <div className="relative">
+                <item.icon className="h-5 w-5" />
+                {item.path === "/my-list" && watchlist.count > 0 && (
+                  <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#5b33b6] px-1 text-[10px] font-semibold text-white">
+                    {watchlist.count}
+                  </span>
+                )}
+              </div>
+            </Link>
+          ))}
+        </div>
+      </nav>
+    </>
   );
 }

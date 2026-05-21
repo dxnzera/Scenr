@@ -35,7 +35,7 @@ export function MovieDetail() {
 
         if (nextMovie) {
           const popularCollection = (await application.repository.search({
-            type: "movie",
+            type: nextMovie.kind,
             limit: 80,
           }))
             .uniqueById()
@@ -56,7 +56,7 @@ export function MovieDetail() {
               nextMovie.genres.slice(0, 2).map((genre) =>
                 application.repository.search({
                   genre,
-                  type: "movie",
+                  type: nextMovie.kind,
                   limit: 24,
                 }),
               ),
@@ -98,8 +98,8 @@ export function MovieDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen pb-12 pt-32">
-        <div className="mx-auto max-w-[1400px] px-6 text-muted-foreground">
+      <div className="min-h-screen pb-12 pt-10">
+        <div className="mx-auto max-w-[1480px] px-6 text-muted-foreground">
           Carregando detalhes...
         </div>
       </div>
@@ -108,8 +108,8 @@ export function MovieDetail() {
 
   if (!movie) {
     return (
-      <div className="min-h-screen pb-12 pt-32">
-        <div className="mx-auto max-w-[1400px] px-6">
+      <div className="min-h-screen pb-12 pt-10">
+        <div className="mx-auto max-w-[1480px] px-6">
           <h1>Filme não encontrado</h1>
         </div>
       </div>
@@ -119,16 +119,16 @@ export function MovieDetail() {
   const isSaved = watchlist.has(movie.id);
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen pt-6">
       <div className="relative min-h-[820px] w-full overflow-hidden">
         <img
           src={movie.backdrop}
           alt={movie.title}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,5,18,0.7)_0%,rgba(8,5,18,0.24)_22%,rgba(8,5,18,0.84)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,4,18,0.72)_0%,rgba(7,4,18,0.18)_56%,transparent_80%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(128,91,255,0.22),transparent_28%)]" />
+        <div className="hero-overlay-top absolute inset-0" />
+        <div className="hero-overlay-side absolute inset-0" />
+        <div className="detail-overlay-accent absolute inset-0" />
 
         <Link
           to="/"
@@ -137,7 +137,7 @@ export function MovieDetail() {
           <ArrowLeft className="w-6 h-6 text-white" />
         </Link>
 
-        <div className="relative mx-auto flex min-h-[820px] max-w-[1400px] items-end px-6 pb-20">
+        <div className="relative mx-auto flex min-h-[820px] max-w-[1480px] items-end px-6 pb-20">
           <div className="max-w-3xl space-y-7">
             <div className="space-y-5">
               <h1 className="text-5xl font-semibold text-white md:text-6xl">{movie.title}</h1>

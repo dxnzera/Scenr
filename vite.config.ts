@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react'
 
 function scenrAssetResolver() {
   return {
-    name: 'scenr-asset-resolver',
+    name: 'Scenr',
     resolveId(id) {
       if (id.startsWith('scenr:asset/')) {
         const filename = id.replace('scenr:asset/', '')
@@ -17,6 +17,7 @@ function scenrAssetResolver() {
 }
 
 export default defineConfig({
+  base: '/Scenr/',
   plugins: [
     scenrAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if

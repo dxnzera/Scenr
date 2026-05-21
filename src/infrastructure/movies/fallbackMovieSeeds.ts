@@ -114,4 +114,65 @@ export const fallbackMovieSeeds: MovieProps[] = [
     backdrop:
       "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?w=1920&h=1080&fit=crop",
   },
+  {
+    id: "fallback-tv-1",
+    title: "Midnight Archive",
+    description:
+      "A journalist and a hacker uncover a trail of cold cases that all point to the same vanished town.",
+    year: "2024",
+    rating: "16",
+    duration: "8 eps",
+    genres: ["Thriller", "Mystery", "Drama"],
+    poster:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=400&h=600&fit=crop",
+    backdrop:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1920&h=1080&fit=crop",
+    kind: "tv",
+    featured: true,
+  },
+  {
+    id: "fallback-tv-2",
+    title: "Signal Zero",
+    description:
+      "When a satellite goes dark, a small operations crew realizes the silence is the first sign of an invasion.",
+    year: "2023",
+    rating: "14",
+    duration: "10 eps",
+    genres: ["Sci-Fi", "Action", "Drama"],
+    poster:
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=600&fit=crop",
+    backdrop:
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1920&h=1080&fit=crop",
+    kind: "tv",
+  },
+  {
+    id: "fallback-tv-3",
+    title: "Velvet District",
+    description:
+      "A family empire begins to collapse when an heiress returns home with evidence no one wanted to see.",
+    year: "2022",
+    rating: "16",
+    duration: "12 eps",
+    genres: ["Drama", "Mystery", "Thriller"],
+    poster:
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=600&fit=crop",
+    backdrop:
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1920&h=1080&fit=crop",
+    kind: "tv",
+  },
+  {
+    id: "fallback-tv-4",
+    title: "Frontier Station",
+    description:
+      "On the edge of colonized space, a fragile alliance between crews is tested by a threat beneath the ice.",
+    year: "2024",
+    rating: "12",
+    duration: "6 eps",
+    genres: ["Sci-Fi", "Adventure", "Mystery"],
+    poster:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=600&fit=crop",
+    backdrop:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&h=1080&fit=crop",
+    kind: "tv",
+  },
 ];

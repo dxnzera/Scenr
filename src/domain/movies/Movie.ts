@@ -72,6 +72,14 @@ export class Movie {
     );
   }
 
+  isKind(kind: MovieKind): boolean {
+    return this.kind === kind;
+  }
+
+  get kindLabel(): string {
+    return this.kind === "tv" ? "Série" : "Filme";
+  }
+
   get metadata(): string[] {
     return [this.year, this.rating, this.duration].filter(Boolean);
   }

@@ -10,15 +10,15 @@ export class GetHomeSectionsUseCase {
 
   async execute(configurations: HomeSectionConfig[]): Promise<HomeSection[]> {
     const currentYear = new Date().getFullYear();
-    const popularCollection = (await this.movieRepository.search({
-      type: "movie",
-      limit: 60,
-    }))
-      .uniqueById()
-      .sortByLatest();
-
     const sections = await Promise.all(
-      configurations.map(async ({ title, query }) => {
+      configurations.map(async ({ title, query, type = "movie" }) => {
+        const popularCollection = (await this.movieRepository.search({
+          type,
+          limit: 60,
+        }))
+          .uniqueById()
+          .sortByLatest();
+
         if (query === "Em alta") {
           return {
             title,
@@ -38,7 +38,7 @@ export class GetHomeSectionsUseCase {
 
         const genreCollection = (await this.movieRepository.search({
           genre: query,
-          type: "movie",
+          type,
           limit: 24,
         }))
           .uniqueById()

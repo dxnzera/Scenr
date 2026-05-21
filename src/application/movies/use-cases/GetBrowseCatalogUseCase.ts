@@ -1,14 +1,14 @@
 import { MovieCollection } from "../../../domain/movies/MovieCollection";
-import { type Movie } from "../../../domain/movies/Movie";
+import { type Movie, type MovieKind } from "../../../domain/movies/Movie";
 import { type MovieRepository } from "../../../domain/movies/MovieRepository";
 
 export class GetBrowseCatalogUseCase {
   constructor(private readonly movieRepository: MovieRepository) {}
 
-  async execute(queries: string[]): Promise<MovieCollection> {
+  async execute(queries: string[], type: MovieKind = "movie"): Promise<MovieCollection> {
     const currentYear = new Date().getFullYear();
     const popularCollection = (await this.movieRepository.search({
-      type: "movie",
+      type,
       limit: 80,
     }))
       .uniqueById()
@@ -18,7 +18,7 @@ export class GetBrowseCatalogUseCase {
       queries.map((query) =>
         this.movieRepository.search({
           genre: query,
-          type: "movie",
+          type,
           limit: 20,
         }),
       ),
