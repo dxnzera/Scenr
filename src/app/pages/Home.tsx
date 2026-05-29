@@ -56,7 +56,7 @@ export function Home() {
       {featuredMovies.length ? (
         <Hero movies={featuredMovies} />
       ) : (
-        <div className="mx-auto flex min-h-[860px] max-w-[1480px] items-center px-6 pb-24 pt-10">
+        <div className="mx-auto flex min-h-[720px] max-w-[1480px] items-center px-4 pb-24 pt-8 md:min-h-[860px] md:px-6 md:pt-10">
           <div className="space-y-4">
             <div className="h-10 w-40 rounded-full bg-white/10" />
             <div className="h-20 w-96 max-w-full rounded-[32px] bg-white/10" />
@@ -65,7 +65,7 @@ export function Home() {
         </div>
       )}
 
-      <div className="relative z-10 -mt-24 space-y-14 pb-14">
+      <div className="relative z-10 -mt-16 space-y-10 pb-16 md:-mt-24 md:space-y-14 md:pb-14">
         {sections.map((section) => (
           <MovieRow key={section.title} title={section.title} movies={section.movies} />
         ))}

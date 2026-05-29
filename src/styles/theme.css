@@ -393,6 +393,10 @@
     box-shadow: 0 10px 24px color-mix(in srgb, var(--theme-nav-badge-bg) 48%, transparent);
   }
 
+  .mobile-bottom-nav {
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
   .hero-overlay-top {
     background: linear-gradient(
       180deg,

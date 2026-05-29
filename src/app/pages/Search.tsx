@@ -74,20 +74,20 @@ export function Search() {
   }, [application, debouncedQuery, selectedType]);
 
   return (
-    <div className="min-h-screen pb-12 pt-10">
-      <div className="mx-auto max-w-[1480px] px-6">
-        <div className="content-fade-in space-y-10">
-          <div className="max-w-3xl space-y-5">
-            <span className="text-sm uppercase tracking-[0.4em] text-white/60">
+    <div className="min-h-screen pb-16 pt-8 md:pb-12 md:pt-10">
+      <div className="mx-auto max-w-[1480px] px-4 md:px-6">
+        <div className="content-fade-in space-y-8 md:space-y-10">
+          <div className="max-w-3xl space-y-4 md:space-y-5">
+            <span className="text-xs uppercase tracking-[0.3em] text-white/60 md:text-sm md:tracking-[0.4em]">
               Busca
             </span>
-            <h1 className="text-4xl font-semibold md:text-5xl">
+            <h1 className="text-3xl font-semibold leading-tight md:text-5xl md:leading-normal">
               Encontre filmes e series sem sair do clima da home.
             </h1>
             <p className="max-w-2xl text-base text-muted-foreground md:text-lg">
               A busca agora conversa melhor com o catalogo inteiro e deixa voce alternar entre tudo, so filmes ou so series.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 md:gap-3">
               {[
                 { label: "Tudo", value: "all" },
                 { label: "Filmes", value: "movie" },
@@ -96,7 +96,7 @@ export function Search() {
                 <Button
                   key={item.value}
                   variant={selectedType === item.value ? "hero" : "glass"}
-                  className="px-5"
+                  className="px-4 md:px-5"
                   onClick={() => setSelectedType(item.value as "all" | "movie" | "tv")}
                 >
                   {item.label}
@@ -116,7 +116,7 @@ export function Search() {
               <p className="mb-6 text-muted-foreground">
                 {results.size} resultado{results.size !== 1 ? "s" : ""} para "{query}"
               </p>
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 lg:grid-cols-4 xl:grid-cols-5">
                 {results.all.map((movie) => (
                   <MovieCard key={movie.id} movie={movie} />
                 ))}
@@ -126,8 +126,8 @@ export function Search() {
 
           {!query && (
             <div>
-              <h2 className="mb-6 text-2xl font-semibold">Sugestoes para comecar</h2>
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              <h2 className="mb-5 text-xl font-semibold md:mb-6 md:text-2xl">Sugestoes para comecar</h2>
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 lg:grid-cols-4 xl:grid-cols-5">
                 {discovery.take(10).map((movie) => (
                   <MovieCard key={movie.id} movie={movie} />
                 ))}

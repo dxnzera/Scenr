@@ -24,9 +24,9 @@ export function LiquidSearchBar({
         event.preventDefault();
         onSubmit?.();
       }}
-      className="liquid-glass flex w-full items-center gap-3 rounded-[28px] p-2"
+      className="liquid-glass flex w-full flex-col items-stretch gap-2 rounded-[24px] p-2 sm:flex-row sm:items-center md:gap-3 md:rounded-[28px]"
     >
-      <div className="flex flex-1 items-center gap-3 px-4">
+      <div className="flex flex-1 items-center gap-3 px-3 md:px-4">
         <Search className="h-5 w-5 text-white/70" />
         <input
           type="text"

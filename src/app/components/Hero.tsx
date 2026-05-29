@@ -40,7 +40,7 @@ export function Hero({ movies }: HeroProps) {
   const isSaved = watchlist.has(movie.id);
 
   return (
-    <div className="relative min-h-[860px] w-full overflow-hidden">
+    <div className="relative min-h-[720px] w-full overflow-hidden md:min-h-[860px]">
       <div className="absolute inset-0">
         <AnimatePresence mode="wait">
           <motion.img
@@ -59,7 +59,7 @@ export function Hero({ movies }: HeroProps) {
         <div className="hero-overlay-accent absolute inset-0" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[760px] max-w-[1480px] items-center px-6 pb-16 pt-10">
+      <div className="relative mx-auto flex min-h-[680px] max-w-[1480px] items-end px-4 pb-20 pt-8 md:min-h-[760px] md:items-center md:px-6 md:pb-16 md:pt-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={movie.id}
@@ -67,22 +67,22 @@ export function Hero({ movies }: HeroProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -18 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
-            className="content-fade-in max-w-3xl space-y-7"
+            className="content-fade-in max-w-3xl space-y-5 md:space-y-7"
           >
-            <div className="liquid-glass inline-flex rounded-full px-4 py-2 text-sm text-white/80">
+            <div className="liquid-glass inline-flex rounded-full px-3 py-1.5 text-xs text-white/80 md:px-4 md:py-2 md:text-sm">
               {movie.kindLabel} em destaque
             </div>
 
-            <div className="space-y-4">
-              <div className="text-xs uppercase tracking-[0.42em] text-white/52">
+            <div className="space-y-3 md:space-y-4">
+              <div className="text-[11px] uppercase tracking-[0.3em] text-white/52 md:text-xs md:tracking-[0.42em]">
                 {movie.genres.slice(0, 2).join(" • ")}
               </div>
-              <h1 className="hero-title-shadow max-w-4xl text-5xl font-semibold text-white md:text-6xl lg:text-7xl">
+              <h1 className="hero-title-shadow max-w-4xl text-4xl font-semibold leading-tight text-white md:text-6xl lg:text-7xl">
                 {movie.title}
               </h1>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 text-white/88">
+            <div className="flex flex-wrap items-center gap-2 text-sm text-white/88 md:gap-3 md:text-base">
               <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-sm backdrop-blur-xl">
                 {movie.rating}
               </span>
@@ -90,19 +90,19 @@ export function Hero({ movies }: HeroProps) {
               <span>{movie.duration}</span>
             </div>
 
-            <p className="max-w-2xl text-lg leading-relaxed text-white/82 md:text-xl">
+            <p className="line-clamp-4 max-w-2xl text-base leading-7 text-white/82 md:line-clamp-none md:text-xl md:leading-relaxed">
               {movie.description}
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Button variant="hero" size="lg" className="px-8">
+            <div className="flex flex-wrap items-center gap-2 pt-1 md:gap-3 md:pt-2">
+              <Button variant="hero" size="lg" className="min-w-[132px] px-6 md:px-8">
                 <Play className="w-5 h-5 fill-black" />
                 Assistir
               </Button>
               <Button
                 variant="glass"
                 size="lg"
-                className="px-8"
+                className="min-w-[132px] px-6 md:px-8"
                 onClick={() => watchlist.toggle(movie)}
               >
                 {isSaved ? <Check className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
@@ -115,11 +115,11 @@ export function Hero({ movies }: HeroProps) {
               </Button>
             </div>
 
-            <div className="flex flex-wrap gap-2 pt-2">
+            <div className="flex max-h-16 flex-wrap gap-2 overflow-hidden pt-1 md:max-h-none md:pt-2">
               {movie.genres.map((genre) => (
                 <span
                   key={genre}
-                  className="rounded-full border border-white/14 bg-white/10 px-3 py-1 text-sm text-white/82 backdrop-blur-xl"
+                  className="rounded-full border border-white/14 bg-white/10 px-2.5 py-1 text-xs text-white/82 backdrop-blur-xl md:px-3 md:text-sm"
                 >
                   {genre}
                 </span>
@@ -127,7 +127,7 @@ export function Hero({ movies }: HeroProps) {
             </div>
 
             {movies.length > 1 && (
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex items-center gap-2 pt-1 md:gap-3 md:pt-2">
                 {movies.map((item, index) => (
                   <button
                     key={item.id}

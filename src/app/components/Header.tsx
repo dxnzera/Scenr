@@ -94,8 +94,8 @@ export function Header() {
         </div>
       </aside>
 
-      <nav className="fixed inset-x-4 bottom-4 z-50 md:hidden">
-        <div className="side-nav-surface flex items-center justify-between rounded-[26px] px-3 py-3">
+      <nav className="mobile-bottom-nav fixed inset-x-3 z-50 md:hidden">
+        <div className="side-nav-surface flex items-center justify-between rounded-[24px] px-2.5 py-2.5">
           {[...primaryNavItems, ...secondaryNavItems].map((item) => (
             <Link
               key={item.path}
@@ -107,7 +107,7 @@ export function Header() {
               <div className="relative">
                 <item.icon className="h-5 w-5" />
                 {item.path === "/my-list" && watchlist.count > 0 && (
-                  <span className="absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#5b33b6] px-1 text-[10px] font-semibold text-white">
+                  <span className="side-nav-count-badge absolute -right-3 -top-3 flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-[10px] font-semibold">
                     {watchlist.count}
                   </span>
                 )}

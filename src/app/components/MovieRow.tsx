@@ -20,9 +20,9 @@ export function MovieRow({ title, movies }: MovieRowProps) {
   };
 
   return (
-    <div className="mx-auto max-w-[1480px] space-y-5 px-6">
+    <div className="mx-auto max-w-[1480px] space-y-4 px-4 md:space-y-5 md:px-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">{title}</h2>
+        <h2 className="text-xl font-semibold md:text-2xl">{title}</h2>
         <div className="hidden gap-2 md:flex">
           <Button
             variant="glass"
@@ -46,11 +46,11 @@ export function MovieRow({ title, movies }: MovieRowProps) {
       <div className="relative">
         <div
           ref={scrollRef}
-          className="scrollbar-hide flex gap-5 overflow-x-auto pb-4"
+          className="scrollbar-hide flex gap-4 overflow-x-auto pb-4 md:gap-5"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {movies.map((movie) => (
-            <div key={movie.id} className="w-56 flex-shrink-0 md:w-64">
+            <div key={movie.id} className="w-44 flex-shrink-0 sm:w-52 md:w-64">
               <MovieCard movie={movie} />
             </div>
           ))}
